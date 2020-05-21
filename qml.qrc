@@ -1,5 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>resources/MyMap.png</file>
+        <file>resources/1_1.png</file>
+        <file>resources/1_2.png</file>
+        <file>resources/1_3.png</file>
+        <file>resources/1_4.png</file>
+        <file>resources/1_5.png</file>
+        <file>resources/1_6.png</file>
+        <file>resources/1_7.png</file>
     </qresource>
 </RCC>
