@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtGraphicalEffects 1.0
+import Mechanics 1.0
 
 Window {
     visible: true
@@ -9,6 +10,16 @@ Window {
     title: "Conquest"
 
     property string activeLand
+    property bool lastResult
+    property int lastSurvivors
+
+    Mechanics {
+        id: mech
+        onFighting: {
+            lastResult = result
+            lastSurvivors = survivorArmy
+        }
+    }
 
     Image {
         id: myMap
@@ -39,7 +50,7 @@ Window {
 
             Text {
                 id: land1_1_army
-                text: qsTr("1")
+                text: qsTr("2")
                 font.pixelSize: 24
                 anchors.centerIn: parent
 
@@ -60,12 +71,26 @@ Window {
 
                             else if (activeLand !== "land1_1")
                             {
-                                for(var i = 0; i < land1_1.nearLands.length; ++i){
+                                for(var i = 0; i < land1_1.nearLands.length; ++i)
+                                {
                                     console.log(land1_1.nearLands[i])
                                     if(land1_1.nearLands[i] === activeLand)
-                                        //тут будут плюсы
-                                       land1_1_overlay.color = "green"} //вопрос
-
+                                    {
+                                        mech.fight(2,10) //Обращения к текстовым полям с армиями (?)
+                                        if (lastResult)
+                                        {
+                                            land1_3_army.text = "" //Обращение к текстовому полю активной земли (?)
+                                            land1_1_army.text = lastSurvivors.toString()
+                                            land1_1_overlay.color = "green" //Обращение к цвету активной земли (?)
+                                        }
+                                        else
+                                        {
+                                            Land1_3_army.text = lastSurvivors //Обращение к текстовому полю активной земли (?)
+                                        }
+                                        activeLand = ""
+                                        land1_3_overlay.opacity = 0.5 //Обращение к цвету активной земли (?)
+                                    }
+                                }
                             }
                         }
                     }
@@ -116,7 +141,7 @@ Window {
 
             Text {
                 id: land1_3_army
-                text: qsTr("3")
+                text: qsTr("10")
                 font.pixelSize: 24
                 anchors.centerIn: parent
 
@@ -137,12 +162,26 @@ Window {
 
                             else if (activeLand !== "land1_3")
                             {
-                                for(var i = 0; i < land1_3.nearLands.length; ++i){
+                                for(var i = 0; i < land1_3.nearLands.length; ++i)
+                                {
                                     console.log(land1_3.nearLands[i])
                                     if(land1_3.nearLands[i] === activeLand)
-                                        //тут будут плюсы
-                                       land1_3_overlay.color = "red"} //вопрос
-
+                                    {
+                                        mech.fight(2,10) //Обращения к текстовым полям с армиями (?)
+                                        if (lastResult)
+                                        {
+                                            land1_1_army.text = "" //Обращение к текстовому полю активной земли (?)
+                                            land1_3_army.text = lastSurvivors.toString()
+                                            land1_3_overlay.color = "red" //Обращение к цвету активной земли (?)
+                                        }
+                                        else
+                                        {
+                                            Land1_1_army.text = lastSurvivors //Обращение к текстовому полю активной земли (?)
+                                        }
+                                        activeLand = ""
+                                        land1_1_overlay.opacity = 0.5 //Обращение к цвету активной земли (?)
+                                    }
+                                }
 
                             }
                             console.log(activeLand)
