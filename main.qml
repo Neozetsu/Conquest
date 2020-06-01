@@ -8,6 +8,8 @@ Window {
     height: 640
     title: "Conquest"
 
+    property string activeLand
+
     Image {
         id: myMap
         width: parent.width
@@ -17,22 +19,67 @@ Window {
         Image {
             id: land1_1
             source: "resources/1_1.png"
+
+            property var nearLands: ["land1_2", "land1_3"]
+
+            objectName: "land1_1"
+
             anchors.left: parent.left
             anchors.leftMargin: 113
             anchors.top: parent.top
             anchors.topMargin: 239
 
             ColorOverlay {
+                id: land1_1_overlay
                 anchors.fill: land1_1
                         source: land1_1
                         color: "red"
                         opacity: 0.5
             }
+
+            Text {
+                id: land1_1_army
+                text: qsTr("1")
+                font.pixelSize: 24
+                anchors.centerIn: parent
+
+                MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if(activeLand == "")
+                            {
+                            land1_1_overlay.opacity = 1
+                            activeLand = "land1_1"
+                            }
+
+                            else if (activeLand == "land1_1")
+                            {
+                                land1_1_overlay.opacity = 0.5
+                                activeLand = ""
+                            }
+
+                            else if (activeLand !== "land1_1")
+                            {
+                                for(var i = 0; i < land1_1.nearLands.length; ++i){
+                                    console.log(land1_1.nearLands[i])
+                                    if(land1_1.nearLands[i] === activeLand)
+                                        //тут будут плюсы
+                                       land1_1_overlay.color = "green"} //вопрос
+
+                            }
+                        }
+                    }
+            }
+
+
         }
 
         Image {
             id: land1_2
             source: "resources/1_2.png"
+
+            objectName: "land1_2"
+
             anchors.left: parent.left
             anchors.leftMargin: 194
             anchors.top: parent.top
@@ -50,16 +97,57 @@ Window {
         Image {
             id: land1_3
             source: "resources/1_3.png"
+            objectName: "land1_3"
+            property var nearLands: ["land1_1", "land1_2", "land1_4", "land1_5"]
+
             anchors.left: parent.left
             anchors.leftMargin: 195
             anchors.top: parent.top
             anchors.topMargin: 285
 
             ColorOverlay {
+                id: land1_3_overlay
                 anchors.fill: land1_3
                         source: land1_3
                         color: "green"
                         opacity: 0.5
+            }
+
+
+            Text {
+                id: land1_3_army
+                text: qsTr("3")
+                font.pixelSize: 24
+                anchors.centerIn: parent
+
+                MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if(activeLand == "")
+                            {
+                            land1_3_overlay.opacity = 1
+                            activeLand = "land1_3"
+                            }
+
+                            else if (activeLand == "land1_3")
+                            {
+                                land1_3_overlay.opacity = 0.5
+                                activeLand = ""
+                            }
+
+                            else if (activeLand !== "land1_3")
+                            {
+                                for(var i = 0; i < land1_3.nearLands.length; ++i){
+                                    console.log(land1_3.nearLands[i])
+                                    if(land1_3.nearLands[i] === activeLand)
+                                        //тут будут плюсы
+                                       land1_3_overlay.color = "red"} //вопрос
+
+
+                            }
+                            console.log(activeLand)
+                        }
+                    }
             }
 
         }
