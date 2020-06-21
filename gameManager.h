@@ -3,13 +3,14 @@
 
 #include <QObject>
 
-class mechanics : public QObject
+class gameManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit mechanics(QObject *parent = nullptr);
+    explicit gameManager(QObject *parent = nullptr);
 
     Q_INVOKABLE void fight(int defending, int attacking);
+    void map();
 
 signals:
     void fighting(bool result, int survivorArmy);

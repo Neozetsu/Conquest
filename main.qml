@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtGraphicalEffects 1.0
-import Mechanics 1.0
+import GameManager 1.0
 
 Window {
     visible: true
@@ -13,9 +13,10 @@ Window {
     property bool lastResult
     property int lastSurvivors
 
-    Mechanics {
-        id: mech
-        onFighting: {
+    GameManager {
+        id: gameManager
+        onFighting:
+        {
             lastResult = result
             lastSurvivors = survivorArmy
         }
@@ -76,7 +77,7 @@ Window {
                                     console.log(land1_1.nearLands[i])
                                     if(land1_1.nearLands[i] === activeLand)
                                     {
-                                        mech.fight(2,10) //Обращения к текстовым полям с армиями (?)
+                                        gameManager.fight(2,10) //Обращения к текстовым полям с армиями (?)
                                         if (lastResult)
                                         {
                                             land1_3_army.text = "" //Обращение к текстовому полю активной земли (?)
@@ -167,7 +168,7 @@ Window {
                                     console.log(land1_3.nearLands[i])
                                     if(land1_3.nearLands[i] === activeLand)
                                     {
-                                        mech.fight(2,10) //Обращения к текстовым полям с армиями (?)
+                                        gameManager.fight(2,10) //Обращения к текстовым полям с армиями (?)
                                         if (lastResult)
                                         {
                                             land1_1_army.text = "" //Обращение к текстовому полю активной земли (?)
