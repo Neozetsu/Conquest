@@ -15,7 +15,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         gameManager.cpp \
-        land.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -35,5 +34,4 @@ DISTFILES += \
     Resourses/MyMap.png
 
 HEADERS += \
-    gameManager.h \
-    land.h
+    gameManager.h
