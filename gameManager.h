@@ -12,8 +12,7 @@ public:
     Q_INVOKABLE void fight(int defending, int attacking);    
     Q_INVOKABLE int getArmy(QString name);
     Q_INVOKABLE QString getColor(QString name);
-
-    void setLand(QString name);
+    Q_INVOKABLE void setLand(QString name, QString army, QString player);
 
 
 signals:

@@ -26,16 +26,6 @@ void gameManager::fight(int defending, int attacking) //Здесь должен 
     emit fighting(true, survivorArmy);
 }
 
-void gameManager::setLand(QString name) //Здесь должна инициализироваться каждая земля из qml
-{
-    Land land;
-    land.name = name;
-    land.army = 1; // хз как нужно это автоматизировать
-    land.player = "green"; //и это (думаю цифры и цвета стоит раздать заранее)
-    map.append(land);
-
-}
-
 int gameManager::getArmy(QString name) //Получение числа армии по имени для qml
 {
     return 0;
@@ -43,7 +33,16 @@ int gameManager::getArmy(QString name) //Получение числа арми�
 
 QString gameManager::getColor(QString name) //Получение цвета земли по имени для qml
 {
-    return "green";
+    return "purple";
+}
+
+void gameManager::setLand(QString name, QString army, QString player)
+{
+    Land land;
+    land.name = name;
+    land.army = army.toInt();
+    land.player = player;
+    map.append(land);
 }
 
 //методы для проверки нажатия на свои земли

@@ -13,7 +13,7 @@ Window {
     property string activeLand
     property bool lastResult
     property int lastSurvivors
-
+    
     GameManager {
         id: gameManager
         onFighting:
@@ -279,6 +279,7 @@ Window {
                     anchors.leftMargin: aLMargin
                     anchors.top: parent.top
                     anchors.topMargin: aTMargin
+                    
                     ColorOverlay {
                         anchors.fill: parent
                         source: parent
@@ -346,7 +347,7 @@ Window {
                  * */
         onClicked: {
             listmodel.append({name: "1_7", sus: "resources/1_7.png", aLMargin: 285, aTMargin: 358, imaColor: "purple", imaOpacity: 0.5, armyNum: "15"})
-            gameManager.
+            gameManager.setLand("1_7", "15", "purple")            
             listmodel.append({name: "1_5", sus: "resources/1_5.png", aLMargin: 234, aTMargin: 348, imaColor: "pink", imaOpacity: 0.5, armyNum: "7"})
 
         }
