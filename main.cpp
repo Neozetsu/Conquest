@@ -2,11 +2,13 @@
 #include <QQmlApplicationEngine>
 #include "gameManager.h"
 
+
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, Qt::MSWindowsFixedSizeDialogHint);
 
     QGuiApplication app(argc, argv);
+
 
     qmlRegisterType<gameManager>("GameManager", 1, 0, "GameManager");
 

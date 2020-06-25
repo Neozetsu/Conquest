@@ -1,5 +1,9 @@
 #include "gameManager.h"
 #include <QColor>
+#include <math.h>
+#include <QDebug>
+#include <iostream>
+
 
 class Land
 {
@@ -8,35 +12,109 @@ class Land
     int army;
     QString player;
     QList<QString> neighbors;
-
 };
 
-//здесь хранится вся текущая карта (нужно массивом)
-QList<Land> map;
+QList<Land> map; //на будущее можно сделать массивом, т.к. карта всегда фиксированного размера
 
 gameManager::gameManager(QObject *parent) : QObject(parent)
 {
 
 }
 
-void gameManager::fight(int defending, int attacking) //Здесь должен быть расчёт боя (получаемые параметры должны быть 2 имени)
+void gameManager::fight(QString defending, QString attacking) //Просчёт боя и изменение значений
 {
-    int survivorArmy;
-    survivorArmy = attacking - defending;
-    emit fighting(true, survivorArmy);
+    int def;
+    int att;
+    for (int i = 0; i < map.length(); i++) //нахождение сражающихся земель
+    {
+        if (map[i].name == defending)
+            def = map[i].army;
+        if (map[i].name == attacking)
+            att = map[i].army;
+
+    }
+    while (def != 0 && att != 0) //сама боёвка через qrand
+    {
+        if (randomBetween(0,1) == 0)
+
+            att -= 1;
+        else
+            def -= 1;
+        //qDebug()<<randomBetween(0,1);
+    }
+    bool win;
+    int result;
+    if (def == 0)
+    {
+        win = true;
+        result = att;
+    }
+    else
+    {
+        win = false;
+        result = def;
+
+    }
+    QString color;
+    for (int i = 0; i < map.length(); i++) //запись изменений после боя в map
+    {
+        if (win)
+        {
+            if (map[i].name == attacking)
+            {
+                map[i].army = 0;
+                color = map[i].player;
+            }
+            if (map[i].name == defending)
+            {
+                map[i].army = att;
+            }
+        }
+        else
+        {
+            if (map[i].name == defending)
+                map[i].army = def;
+            if (map[i].name == attacking)
+            {
+                map[i].army = 0;
+            }
+        }
+    }
+
+    if (win)
+        for (int i = 0; i < map.length(); i++)
+        {
+            if (map[i].name == defending)
+                map[i].player = color;
+
+        }
+
+    emit fighting(win, result); //вывод результата через сигнал
 }
 
-int gameManager::getArmy(QString name) //Получение числа армии по имени для qml
+int gameManager::randomBetween(int low, int high) //рандом между двумя числами
 {
-    return 0;
+    return (qrand() % ((high + 1) - low) + low);
+
+}
+
+int gameManager::getArmy(QString name) //Получение числа армий по имени для qml
+{
+    for (int i = 0; i < map.length(); i++)
+        if (map[i].name == name)
+            return map[i].army;
+    return false;
 }
 
 QString gameManager::getColor(QString name) //Получение цвета земли по имени для qml
 {
-    return "purple";
+    for (int i = 0; i < map.length(); i++)
+        if (map[i].name == name)
+            return map[i].player;
+    return "false";
 }
 
-void gameManager::setLand(QString name, QString army, QString player)
+void gameManager::setLand(QString name, QString army, QString player) //Создание земли в map
 {
     Land land;
     land.name = name;
@@ -45,4 +123,12 @@ void gameManager::setLand(QString name, QString army, QString player)
     map.append(land);
 }
 
-//методы для проверки нажатия на свои земли
+void gameManager::setArmy(QString name) //Изменение армий при расстановке подкреплений
+{
+    for (int i = 0; i < map.length(); i++)
+        if (map[i].name == name)
+        {
+            map[i].army += 1;
+            return;
+        }
+}
