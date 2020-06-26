@@ -76,7 +76,7 @@ Window {
 
             delegate: Item{
                 id: item
-                objectName: name
+                objectName: name               
                 Image {
                     source: sus
                     anchors.left: parent.left
@@ -95,7 +95,7 @@ Window {
                         anchors.centerIn: parent
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: {
+                            onClicked: {                               
                                 //Сделать нормальные флажки для хода игроков (?) НЕ РЕШЕНО
                                 if (placement && playerTurn && imaColor == "green" || placement && !playerTurn && imaColor == "red")
                                 { //Условия для расстановки подкреплений
@@ -116,6 +116,7 @@ Window {
                                     {
                                         imaOpacity = 1
                                         activeLand = item.objectName
+
                                     }
 
                                     else if (activeLand == item.objectName)
@@ -152,6 +153,14 @@ Window {
                     }
                 }
             }
+            Button{
+                id: button
+                text: "aaaaaaaaa"
+                onClicked: {
+                    listmodel.set(0, {armyNum: "50", imaOpacity: 1})
+                }
+            }
+
             model: ListModel {
                 id: listmodel
             }
@@ -214,6 +223,7 @@ Window {
         anchors.bottomMargin: 10
         onClicked:
         {
+            console.log()
             if (placementArmy.text == "0")
             {
                 placementArmy.visible = true;
