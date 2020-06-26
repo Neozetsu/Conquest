@@ -259,6 +259,11 @@ Window {
             endTurn.visible = true
             phase = 2
             finishAttacks.visible = false
+            if (gameManager.checkWin(activeColor))
+            {
+                phase = -1
+                winTable.visible = true;
+            }
         }
     }
     Button { //Кнопка смены фазы на размещение и передачу хода другому игроку

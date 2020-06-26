@@ -199,3 +199,11 @@ QStringList gameManager::readData(int index)
     return line[index].split(' ');
 }
 
+bool gameManager::checkWin(QString color)
+{
+    for (int i = 0; i < map.length(); i++)
+        if (map[i].player != color)
+            return false;
+    return true;
+}
+

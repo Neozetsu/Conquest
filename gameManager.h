@@ -18,6 +18,7 @@ public:
     Q_INVOKABLE void readNeighbors();
     Q_INVOKABLE bool isNeighbor(int obj, int subj);
     Q_INVOKABLE QStringList readData(int index);
+    Q_INVOKABLE bool checkWin(QString color);
 
     int randomBetween(int low, int high);
 
