@@ -13,13 +13,13 @@ public:
     Q_INVOKABLE int getArmy(QString name);
     Q_INVOKABLE QString getColor(QString name);
     Q_INVOKABLE void setLand(QString name, QString army, QString player);
-    Q_INVOKABLE void setArmy(QString name);
+    Q_INVOKABLE int changeArmy(QString name);
+    Q_INVOKABLE int movement(QString object, QString subject);
 
     int randomBetween(int low, int high);
 
 signals:
     void fighting(bool win, int result);
-
 };
 
 #endif // MECHANICS_H

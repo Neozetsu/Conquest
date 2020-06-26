@@ -100,18 +100,20 @@ int gameManager::randomBetween(int low, int high) //рандом между дв
 
 int gameManager::getArmy(QString name) //Получение числа армий по имени для qml
 {
+    int result;
     for (int i = 0; i < map.length(); i++)
         if (map[i].name == name)
-            return map[i].army;
-    return false;
+            result = map[i].army;
+    return result;
 }
 
 QString gameManager::getColor(QString name) //Получение цвета земли по имени для qml
 {
+    QString result;
     for (int i = 0; i < map.length(); i++)
         if (map[i].name == name)
-            return map[i].player;
-    return "false";
+            result = map[i].player;
+    return result;
 }
 
 void gameManager::setLand(QString name, QString army, QString player) //Создание земли в map
@@ -123,12 +125,38 @@ void gameManager::setLand(QString name, QString army, QString player) //Созд
     map.append(land);
 }
 
-void gameManager::setArmy(QString name) //Изменение армий при расстановке подкреплений
+int gameManager::changeArmy(QString name) //Изменение армий при расстановке подкреплений
 {
+    int result;
     for (int i = 0; i < map.length(); i++)
         if (map[i].name == name)
         {
             map[i].army += 1;
-            return;
+            result = map[i].army;
         }
+    return result;
+}
+
+int gameManager::movement(QString object, QString subject) //передвижение армий после атак
+{
+    int result;
+    int objArmy;
+    for (int i = 0; i < map.length(); i++)
+    {
+        if (map[i].name == object && map[i].army > 0)
+        {
+            objArmy = map[i].army;
+            map[i].army = 0;
+        }
+    }
+
+    for (int i = 0; i < map.length(); i++)
+    {
+        if (map[i].name == subject)
+        {
+            map[i].army += objArmy;
+            result = map[i].army;
+        }
+    }
+    return result;
 }
