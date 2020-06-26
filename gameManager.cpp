@@ -15,7 +15,7 @@ public:
 };
 
 QList<QString> allNeighbors;
-QList<Land> map; //на будущее можно сделать массивом, т.к. карта всегда фиксированного размера
+QList<Land> map;
 
 gameManager::gameManager(QObject *parent) : QObject(parent)
 {
@@ -32,7 +32,6 @@ void gameManager::fight(QString defending, QString attacking) //Просчёт �
             def = map[i].army;
         if (map[i].name == attacking)
             att = map[i].army;
-
     }
     while (def != 0 && att != 0) //сама боёвка через qrand
     {
@@ -41,7 +40,6 @@ void gameManager::fight(QString defending, QString attacking) //Просчёт �
             att -= 1;
         else
             def -= 1;
-        //qDebug()<<randomBetween(0,1);
     }
     bool win;
     int result;
@@ -89,14 +87,12 @@ void gameManager::fight(QString defending, QString attacking) //Просчёт �
                 map[i].player = color;
 
         }
-
     emit fighting(win, result); //вывод результата через сигнал
 }
 
 int gameManager::randomBetween(int low, int high) //рандом между двумя числами
 {
     return (qrand() % ((high + 1) - low) + low);
-
 }
 
 int gameManager::getArmy(QString name) //Получение числа армий по имени для qml
@@ -165,7 +161,7 @@ int gameManager::movement(QString object, QString subject) //передвиже�
     return result;
 }
 
-void gameManager::readNeighbors()
+void gameManager::readNeighbors() //Чтение файла соседних земель
 {
     QFile inputFile(":/resources/neigh.txt");
     if (inputFile.open(QIODevice::ReadOnly))
@@ -180,7 +176,7 @@ void gameManager::readNeighbors()
     }
 }
 
-bool gameManager::isNeighbor(int obj, int subj)
+bool gameManager::isNeighbor(int obj, int subj) //Проверка на соседство земель
 {
     return map[obj].neighbors.contains(subj);
 }
@@ -195,15 +191,13 @@ QStringList gameManager::readData(int index)
         line = in.split('\n');
         inputFile.close();
     }
-
     return line[index].split(' ');
 }
 
-bool gameManager::checkWin(QString color)
+bool gameManager::checkWin(QString color) //Проверка достижения победы
 {
     for (int i = 0; i < map.length(); i++)
         if (map[i].player != color)
             return false;
     return true;
 }
-

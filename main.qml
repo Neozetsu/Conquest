@@ -12,7 +12,7 @@ Window {
     minimumWidth: 1200
     maximumWidth: 1200
 
-    property int phase; //фазы хода игрока: 0 - размещение, 1 - ход, 2 - перемещение
+    property int phase; //фазы хода игрока: 0 - размещение, 1 - ход, 2 - перемещение, -1 - дефолтная
     property string activeLand //текущая нажатая земля
     property int activeIndex //индекс текущей нажатой земли
     property string activeColor //цвет текущего игрока
@@ -22,26 +22,23 @@ Window {
 
     GameManager { //Игровой менеджер
         id: gameManager
-        onFighting:
-        {
+        onFighting: {
             lastWin = win
             lastResult = result
         }
     }
-
-    Image { //главная картинка заднего фона (белая карта)
+    Image {
         id: myMap
         width: parent.width
         height: parent.height
         source: "resources/MyMap.png"
-        ListView { //ListView содержащий делегат для динамического создания объекта
+        ListView {
             id: listview
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-
-            delegate: Item{
+            delegate: Item {
                 id: item
                 objectName: name
                 Image {
@@ -63,15 +60,12 @@ Window {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                switch (phase)
-                                {
+                                switch (phase) {
                                 case 0: //фаза расстановки
-                                    if (imaColor == activeColor)
-                                    {
+                                    if (imaColor == activeColor) {
                                         armyNum = gameManager.changeArmy(item.objectName).toString()
                                         placementArmy.text -= 1;
-                                        if (placementArmy.text == "0")
-                                        {
+                                        if (placementArmy.text == "0") {
                                             finishPlacement.visible = true
                                             phase = -1
                                         }
@@ -79,20 +73,17 @@ Window {
                                     break
 
                                 case 1: //фаза хода
-                                    if(activeLand == "" && imaColor == activeColor && armyNum != "0")
-                                    {
+                                    if(activeLand == "" && imaColor == activeColor && armyNum != "0") {
                                         imaOpacity = "1"
                                         activeLand = item.objectName
                                         activeIndex = model.index
                                     }
-                                    else if (activeLand == item.objectName)
-                                    {
+                                    else if (activeLand == item.objectName) {
                                         imaOpacity = "0.5"
                                         activeLand = ""
                                         activeIndex = -1
                                     }
-                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor != activeColor && gameManager.isNeighbor(activeIndex, model.index))
-                                    {
+                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor != activeColor && gameManager.isNeighbor(activeIndex, model.index)) {
                                         gameManager.fight(item.objectName, activeLand)
                                         if (lastWin)
                                             imaColor = gameManager.getColor(activeLand)
@@ -104,28 +95,23 @@ Window {
                                     break
 
                                 case 2: //фаза перемещения
-                                    if (activeLand == "" && imaColor == activeColor && armyNum != "0")
-                                    {
+                                    if (activeLand == "" && imaColor == activeColor && armyNum != "0") {
                                         imaOpacity = "1"
                                         activeLand = item.objectName
                                         activeIndex = model.index
                                     }
-                                    else if (activeLand == item.objectName)
-                                    {
+                                    else if (activeLand == item.objectName) {
                                         imaOpacity = "0.5"
                                         activeLand = ""
                                         activeIndex = -1
                                     }
-                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor == activeColor && gameManager.isNeighbor(activeIndex, model.index))
-                                    {
+                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor == activeColor && gameManager.isNeighbor(activeIndex, model.index)) {
                                         armyNum = gameManager.movement(activeLand, item.objectName).toString()
                                         listmodel.set(activeIndex, {armyNum: "0", imaOpacity: "0.5"})
                                         activeLand = ""
                                         numberOfMoves.text -= 1
                                         if (numberOfMoves.text == "0")
-                                        {
                                             phase = -1
-                                        }
                                     }
                                     break
                                 case -1: //дефолтная фаза (отключение интерактивности)
@@ -153,21 +139,18 @@ Window {
             source: parent
             color: "burlywood"
         }
-
         onClicked: {
             gameManager.readNeighbors()
-            for (var i = 0; i < 71; i++)
-            {
+            for (var i = 0; i < 71; i++) {
                 var data  = gameManager.readData(i);
                 listmodel.append({name: data[0], sus: data[1], aLMargin: data[2], aTMargin: data[3], imaColor: data[4], imaOpacity: data[5], armyNum: data[6]});
             }
             playerTurn = 0
             activeColor = "green"
             turn.visible = true
-            placementArmy.visible = true
+            holderArmyText.visible = true
             startGame.visible = false
             phase = 0
-
             for (var j = 0; j < listmodel.count; j++)
                 gameManager.setLand(listmodel.get(j).name , listmodel.get(j).armyNum, listmodel.get(j).imaColor, j)
         }
@@ -179,22 +162,23 @@ Window {
         anchors.bottom: parent.bottom
         color: "burlywood"
         Text { //Текст с количеством подкреплений
-            id: placementArmy
             visible: false
-            text: "3"
-            font.pixelSize: 24
-            anchors.centerIn: parent
+            id: holderArmyText
+            text: "Reinforcements left:"
+            font.pixelSize: 20
+            anchors.left: parent.left
+            anchors.leftMargin: 450
+            anchors.verticalCenter: parent.verticalCenter
             Text {
-                id: holderArmyText
-                text: "Reinforcements left:"
-                font.pixelSize: 20
-                anchors.right: parent.left
-                anchors.rightMargin: 20
+                id: placementArmy
+                text: "3"
+                font.pixelSize: 24
+                anchors.left: parent.right
+                anchors.leftMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
-
-        Text {
+        Text { //Текст с количеством оставшихся передвижений
             visible: false
             id: movesLeft
             text: "Moves left:"
@@ -233,10 +217,9 @@ Window {
         anchors.rightMargin: 100
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        onClicked:
-        {
-            placementArmy.text = "3" //Изменить под плюсы
-            placementArmy.visible = false
+        onClicked: {
+            placementArmy.text = "3"
+            holderArmyText.visible = false
             phase = 1
             finishPlacement.visible = false
             finishAttacks.visible = true
@@ -253,8 +236,7 @@ Window {
         anchors.rightMargin: 100
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        onClicked:
-        {
+        onClicked: {
             movesLeft.visible = true
             endTurn.visible = true
             phase = 2
@@ -277,13 +259,12 @@ Window {
         anchors.rightMargin: 100
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        onClicked:
-        {
+        onClicked: {
             movesLeft.visible = false
             numberOfMoves.text = "3"
             phase = 0
             endTurn.visible = false
-            placementArmy.visible = true
+            holderArmyText.visible = true
             if (playerTurn == 2)
                 playerTurn = 0
             else
@@ -308,7 +289,6 @@ Window {
                 break;
             //можно добавлять сколько угодно
             }
-
         }
     }
     Rectangle { //Табличка с надписью победы (НЕ РЕАЛИЗОВАНО)
@@ -324,7 +304,7 @@ Window {
         Text {
             id: winText
             text: "Victory!"
-            color: "red"
+            color: activeColor
             font.pixelSize: 60
             anchors.centerIn: parent
         }
