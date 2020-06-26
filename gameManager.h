@@ -12,9 +12,12 @@ public:
     Q_INVOKABLE void fight(QString defending, QString attacking);
     Q_INVOKABLE int getArmy(QString name);
     Q_INVOKABLE QString getColor(QString name);
-    Q_INVOKABLE void setLand(QString name, QString army, QString player);
+    Q_INVOKABLE void setLand(QString name, QString army, QString player, int index);
     Q_INVOKABLE int changeArmy(QString name);
     Q_INVOKABLE int movement(QString object, QString subject);
+    Q_INVOKABLE void readNeighbors();
+    Q_INVOKABLE bool isNeighbor(int obj, int subj);
+    Q_INVOKABLE QStringList readData(int index);
 
     int randomBetween(int low, int high);
 

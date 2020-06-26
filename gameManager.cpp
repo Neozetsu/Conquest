@@ -1,19 +1,20 @@
 #include "gameManager.h"
-#include <QColor>
 #include <math.h>
 #include <QDebug>
 #include <iostream>
+#include <QFile>
 
 
 class Land
 {
-  public:
+public:
     QString name;
     int army;
     QString player;
-    QList<QString> neighbors;
+    QList<int> neighbors;
 };
 
+QList<QString> allNeighbors;
 QList<Land> map; //на будущее можно сделать массивом, т.к. карта всегда фиксированного размера
 
 gameManager::gameManager(QObject *parent) : QObject(parent)
@@ -116,13 +117,16 @@ QString gameManager::getColor(QString name) //Получение цвета зе
     return result;
 }
 
-void gameManager::setLand(QString name, QString army, QString player) //Создание земли в map
+void gameManager::setLand(QString name, QString army, QString player, int index) //Создание земли в map
 {
     Land land;
     land.name = name;
     land.army = army.toInt();
     land.player = player;
+    foreach (QString item, allNeighbors[index].split(QLatin1Char(' ')))
+        land.neighbors.append(item.toInt());
     map.append(land);
+    qDebug() << land.neighbors;
 }
 
 int gameManager::changeArmy(QString name) //Изменение армий при расстановке подкреплений
@@ -160,3 +164,38 @@ int gameManager::movement(QString object, QString subject) //передвиже�
     }
     return result;
 }
+
+void gameManager::readNeighbors()
+{
+    QFile inputFile(":/resources/neigh.txt");
+    if (inputFile.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&inputFile);
+        while (!in.atEnd())
+        {
+            QString line = in.readLine();
+            allNeighbors.append(line);
+        }
+        inputFile.close();
+    }
+}
+
+bool gameManager::isNeighbor(int obj, int subj)
+{
+    return map[obj].neighbors.contains(subj);
+}
+
+QStringList gameManager::readData(int index)
+{
+    QStringList line;
+    QFile inputFile(":/resources/data.txt");
+    if (inputFile.open(QIODevice::ReadOnly))
+    {
+        QString in = inputFile.readAll();
+        line = in.split('\n');
+        inputFile.close();
+    }
+
+    return line[index].split(' ');
+}
+

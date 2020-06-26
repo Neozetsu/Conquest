@@ -81,45 +81,45 @@ Window {
                                 case 1: //фаза хода
                                     if(activeLand == "" && imaColor == activeColor && armyNum != "0")
                                     {
-                                        imaOpacity = 1
+                                        imaOpacity = "1"
                                         activeLand = item.objectName
                                         activeIndex = model.index
                                     }
                                     else if (activeLand == item.objectName)
                                     {
-                                        imaOpacity = 0.5
+                                        imaOpacity = "0.5"
                                         activeLand = ""
                                         activeIndex = -1
                                     }
-                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor != activeColor)
+                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor != activeColor && gameManager.isNeighbor(activeIndex, model.index))
                                     {
                                         gameManager.fight(item.objectName, activeLand)
                                         if (lastWin)
                                             imaColor = gameManager.getColor(activeLand)
 
                                         armyNum = lastResult.toString()
-                                        listmodel.set(activeIndex, {armyNum: "0", imaOpacity: 0.5})
-                                        activeLand = ""
+                                        listmodel.set(activeIndex, {armyNum: "0", imaOpacity: "0.5"})
+                                        activeLand = ""                                        
                                     }
                                     break
 
                                 case 2: //фаза перемещения
                                     if (activeLand == "" && imaColor == activeColor && armyNum != "0")
                                     {
-                                        imaOpacity = 1
+                                        imaOpacity = "1"
                                         activeLand = item.objectName
                                         activeIndex = model.index
                                     }
                                     else if (activeLand == item.objectName)
                                     {
-                                        imaOpacity = 0.5
+                                        imaOpacity = "0.5"
                                         activeLand = ""
                                         activeIndex = -1
                                     }
-                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor == activeColor)
+                                    else if (activeLand !== item.objectName && activeLand !== "" && imaColor == activeColor && gameManager.isNeighbor(activeIndex, model.index))
                                     {
                                         armyNum = gameManager.movement(activeLand, item.objectName).toString()
-                                        listmodel.set(activeIndex, {armyNum: "0", imaOpacity: 0.5})
+                                        listmodel.set(activeIndex, {armyNum: "0", imaOpacity: "0.5"})
                                         activeLand = ""
                                         numberOfMoves.text -= 1
                                         if (numberOfMoves.text == "0")
@@ -155,91 +155,12 @@ Window {
         }
 
         onClicked: {
-            //Первая страна
-            listmodel.append({name: "1_1", sus: "resources/1_1.png", aLMargin: 113, aTMargin: 239, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "1_2", sus: "resources/1_2.png", aLMargin: 194, aTMargin: 200, imaColor: "green", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "1_3", sus: "resources/1_3.png", aLMargin: 195, aTMargin: 285, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "1_4", sus: "resources/1_4.png", aLMargin: 248, aTMargin: 283, imaColor: "red", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "1_5", sus: "resources/1_5.png", aLMargin: 234, aTMargin: 348, imaColor: "green", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "1_6", sus: "resources/1_6.png", aLMargin: 303, aTMargin: 296, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "1_7", sus: "resources/1_7.png", aLMargin: 285, aTMargin: 358, imaColor: "red", imaOpacity: 0.5, armyNum: "4"})
-
-            //Вторая страна
-            listmodel.append({name: "2_1", sus: "resources/2_1.png", aLMargin: 278, aTMargin: 438, imaColor: "green", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "2_2", sus: "resources/2_2.png", aLMargin: 327, aTMargin: 387, imaColor: "blue", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "2_3", sus: "resources/2_3.png", aLMargin: 366, aTMargin: 392, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "2_4", sus: "resources/2_4.png", aLMargin: 336, aTMargin: 319, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "2_5", sus: "resources/2_5.png", aLMargin: 384, aTMargin: 298, imaColor: "blue", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "2_6", sus: "resources/2_6.png", aLMargin: 417, aTMargin: 358, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "2_7", sus: "resources/2_7.png", aLMargin: 438, aTMargin: 289, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "2_8", sus: "resources/2_8.png", aLMargin: 474, aTMargin: 351, imaColor: "blue", imaOpacity: 0.5, armyNum: "1"})
-
-            //Третья страна
-            listmodel.append({name: "3_1", sus: "resources/3_1.png", aLMargin: 259, aTMargin: 214, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "3_2", sus: "resources/3_2.png", aLMargin: 292, aTMargin: 246, imaColor: "green", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "3_3", sus: "resources/3_3.png", aLMargin: 336, aTMargin: 275, imaColor: "blue", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "3_4", sus: "resources/3_4.png", aLMargin: 381, aTMargin: 278, imaColor: "red", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "3_5", sus: "resources/3_5.png", aLMargin: 441, aTMargin: 248, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "3_6", sus: "resources/3_6.png", aLMargin: 471, aTMargin: 208, imaColor: "blue", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "3_7", sus: "resources/3_7.png", aLMargin: 500, aTMargin: 165, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "3_8", sus: "resources/3_8.png", aLMargin: 293, aTMargin: 193, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "3_9", sus: "resources/3_9.png", aLMargin: 337, aTMargin: 236, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "3_10", sus: "resources/3_10.png", aLMargin: 382, aTMargin: 216, imaColor: "red", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "3_11", sus: "resources/3_11.png", aLMargin: 425, aTMargin: 194, imaColor: "green", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "3_12", sus: "resources/3_12.png", aLMargin: 442, aTMargin: 142, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "3_13", sus: "resources/3_13.png", aLMargin: 325, aTMargin: 175, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "3_14", sus: "resources/3_14.png", aLMargin: 362, aTMargin: 156, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "3_15", sus: "resources/3_15.png", aLMargin: 401, aTMargin: 140, imaColor: "blue", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "3_16", sus: "resources/3_16.png", aLMargin: 373, aTMargin: 110, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-
-            //Четвёртая страна
-            listmodel.append({name: "4_1", sus: "resources/4_1.png", aLMargin: 518, aTMargin: 347, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "4_2", sus: "resources/4_2.png", aLMargin: 554, aTMargin: 321, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "4_3", sus: "resources/4_3.png", aLMargin: 607, aTMargin: 292, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "4_4", sus: "resources/4_4.png", aLMargin: 662, aTMargin: 322, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "4_5", sus: "resources/4_5.png", aLMargin: 721, aTMargin: 375, imaColor: "blue", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "4_6", sus: "resources/4_6.png", aLMargin: 490, aTMargin: 289, imaColor: "red", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "4_7", sus: "resources/4_7.png", aLMargin: 482, aTMargin: 253, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "4_8", sus: "resources/4_8.png", aLMargin: 508, aTMargin: 210, imaColor: "blue", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "4_9", sus: "resources/4_9.png", aLMargin: 547, aTMargin: 247, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "4_10", sus: "resources/4_10.png", aLMargin: 575, aTMargin: 183, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "4_11", sus: "resources/4_11.png", aLMargin: 608, aTMargin: 222, imaColor: "blue", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "4_12", sus: "resources/4_12.png", aLMargin: 659, aTMargin: 266, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "4_13", sus: "resources/4_13.png", aLMargin: 725, aTMargin: 304, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "4_14", sus: "resources/4_14.png", aLMargin: 785, aTMargin: 356, imaColor: "blue", imaOpacity: 0.5, armyNum: "2"})
-
-            //Пятая страна
-            listmodel.append({name: "5_1", sus: "resources/5_1.png", aLMargin: 618, aTMargin: 150, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "5_2", sus: "resources/5_2.png", aLMargin: 663, aTMargin: 170, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "5_3", sus: "resources/5_3.png", aLMargin: 693, aTMargin: 219, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "5_4", sus: "resources/5_4.png", aLMargin: 742, aTMargin: 242, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "5_5", sus: "resources/5_5.png", aLMargin: 798, aTMargin: 264, imaColor: "blue", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "5_6", sus: "resources/5_6.png", aLMargin: 730, aTMargin: 165, imaColor: "red", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "5_7", sus: "resources/5_7.png", aLMargin: 770, aTMargin: 183, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "5_8", sus: "resources/5_8.png", aLMargin: 826, aTMargin: 206, imaColor: "blue", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "5_9", sus: "resources/5_9.png", aLMargin: 771, aTMargin: 128, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "5_10", sus: "resources/5_10.png", aLMargin: 821, aTMargin: 149, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "5_11", sus: "resources/5_11.png", aLMargin: 810, aTMargin: 89, imaColor: "blue", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "5_12", sus: "resources/5_12.png", aLMargin: 866, aTMargin: 137, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-
-            //Шестая страна
-            listmodel.append({name: "6_1", sus: "resources/6_1.png", aLMargin: 813, aTMargin: 444, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "6_2", sus: "resources/6_2.png", aLMargin: 843, aTMargin: 347, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "6_3", sus: "resources/6_3.png", aLMargin: 857, aTMargin: 285, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "6_4", sus: "resources/6_4.png", aLMargin: 879, aTMargin: 223, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "6_5", sus: "resources/6_5.png", aLMargin: 911, aTMargin: 375, imaColor: "blue", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "6_6", sus: "resources/6_6.png", aLMargin: 915, aTMargin: 311, imaColor: "red", imaOpacity: 0.5, armyNum: "4"})
-            listmodel.append({name: "6_7", sus: "resources/6_7.png", aLMargin: 915, aTMargin: 252, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "6_8", sus: "resources/6_8.png", aLMargin: 955, aTMargin: 283, imaColor: "blue", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "6_9", sus: "resources/6_9.png", aLMargin: 968, aTMargin: 236, imaColor: "red", imaOpacity: 0.5, armyNum: "3"})
-
-            //Седьмая страна
-            listmodel.append({name: "7_1", sus: "resources/7_1.png", aLMargin: 728, aTMargin: 105, imaColor: "green", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "7_2", sus: "resources/7_2.png", aLMargin: 751, aTMargin: 80, imaColor: "blue", imaOpacity: 0.5, armyNum: "3"})
-            listmodel.append({name: "7_3", sus: "resources/7_3.png", aLMargin: 772, aTMargin: 56, imaColor: "red", imaOpacity: 0.5, armyNum: "1"})
-            listmodel.append({name: "7_4", sus: "resources/7_4.png", aLMargin: 696, aTMargin: 61, imaColor: "green", imaOpacity: 0.5, armyNum: "2"})
-            listmodel.append({name: "7_5", sus: "resources/7_5.png", aLMargin: 719, aTMargin: 41, imaColor: "blue", imaOpacity: 0.5, armyNum: "2"})
-
+            gameManager.readNeighbors()
+            for (var i = 0; i < 71; i++)
+            {
+                var data  = gameManager.readData(i);
+                listmodel.append({name: data[0], sus: data[1], aLMargin: data[2], aTMargin: data[3], imaColor: data[4], imaOpacity: data[5], armyNum: data[6]});
+            }
             playerTurn = 0
             activeColor = "green"
             turn.visible = true
@@ -247,8 +168,8 @@ Window {
             startGame.visible = false
             phase = 0
 
-            for (var i = 0; i < listmodel.count; i++)
-                gameManager.setLand(listmodel.get(i).name , listmodel.get(i).armyNum, listmodel.get(i).imaColor)
+            for (var j = 0; j < listmodel.count; j++)
+                gameManager.setLand(listmodel.get(j).name , listmodel.get(j).armyNum, listmodel.get(j).imaColor, j)
         }
     }
     Rectangle { //Пользовательский интерфейс
